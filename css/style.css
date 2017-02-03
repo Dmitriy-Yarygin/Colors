@@ -1,0 +1,108 @@
+body{
+  color: royalblue;
+}
+.jumbotron {
+    margin: 0;
+    padding: 1em;
+    min-width: 300px;
+    background: palegoldenrod;
+    background: linear-gradient(to top, ivory, palegoldenrod);
+}
+table {
+  width: 100%;
+}
+.main {
+  padding-top: 1em;
+  background: ivory;
+}
+.colorDivClass {
+  height: 30px; 
+  border-radius: 50%;  
+  text-align: center;
+  vertical-align: middle;
+  font-size: 20px;
+  font-weight: 600;
+}
+.parentUlElem {
+  text-align: center;
+}
+.parentUlElem, .childUlElem {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+.childUlElem {
+  padding: 5px;
+}
+.childUlElem:hover {
+  background: palegoldenrod;
+}
+@media (min-width: 800px) /* Разрешение более 800px */
+{
+    .main {
+      height: 200px;
+      overflow: auto;
+    }
+    .parentUlElem {
+      display: table-row;
+    }  
+    .parentUlElem>li {
+      display: table-cell;
+      min-width: 90px;
+    }
+
+    .earlier.glyphicon-hand-left { display: inline-block ; }  
+    .earlier.glyphicon-hand-up { display: none; }  
+    .further.glyphicon-hand-right { display: inline-block; }    
+    .further.glyphicon-hand-down { display: none; }  
+}
+
+@media (max-width: 800px) /* Разрешение до 800px включительно*/
+{
+    thead { 
+      display: none;
+    }
+    colorsList li>ul {
+        display: table-row;
+    }
+    .childLiElem {
+        display: table-cell;
+        vertical-align: middle;
+        width: 200px;
+        min-width: 100px;
+    }
+    .colorDivClass {
+      min-width: 30px; 
+    }  
+    .earlier.glyphicon-hand-left { display: none; }  
+    .earlier.glyphicon-hand-up { display: inline-block; }  
+    .further.glyphicon-hand-right { display: none; }    
+    .further.glyphicon-hand-down { display: inline-block; }  
+}
+  
+@media (max-width: 400px) /* Разрешение до 400px включительно*/
+{
+    .childLiElem:nth-child(3) {
+        display: none;
+    }
+}
+
+.pointers {
+  font-size: 2em;
+  font-weight: 900;
+}
+.winner {
+  font-size: 150%;
+  font-weight: 900;
+}
+.orangeBorder {  
+  border-radius: 10px;
+  border: 7px double orange;
+}
+.winner .pointers {
+  display: none;
+}
+.winner .colorDivClass {
+  height: 60px; 
+  min-width: 100px;
+}
