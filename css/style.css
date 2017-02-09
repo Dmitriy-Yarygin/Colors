@@ -106,3 +106,9 @@ table {
   height: 60px; 
   min-width: 100px;
 }
+ iframe {
+ 	/*position: absolute;
+ 	left: -50px;*/
+ 	height: 0;
+ 	width: 0;
+ }
