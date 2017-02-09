@@ -1,14 +1,25 @@
+"use strict";
+
 var colorCode = [ '#A52A2A', '#FF0000', '#FF7F50', '#FFA500', '#FFD700', '#FFFF00',  '#808000', '#008000', '#00FFFF', '#40E0D0', 'Cornflowerblue', '#0000FF', '#4B0082' ],
     colorNames = [ 'Brown' , 'Red', 'Coral', 'Orange', 'Gold', 'Yellow', 'Olive', 'Green', 'Cyan', 'Turquoise', 'Cornflowerblue', 'Blue', 'Indigo'  ],
     colorNamesRu = ['Коричневый', 'Красный', 'Коралловый', 'Оранжевый', 'Золотистый', 'Желтый', 'Оливковый', 'Зеленый', 'Голубой', 'Бирюзовый', 'Васильковый', 'Синий', 'Индиго'  ],
     guessedColorIndex = getRandomInt( colorCode.length ),
-    attemptsCount=0;
+    attemptsCount=0,
+    soundTimer, videoTimer;
 makeColorTable( colorCode.length );
+
+window.onload = function() {
+  playSound( 'hello' );
+  playSoundAfter( 'help' );
+};
+
 $( ".childUlElem" ).click( fnColorClick );
-//$('#youWinModal').on('show.bs.modal', function(){ } );
+
+$('#youWinModal').on('show.bs.modal', function(){ 
+  videoTimer = setTimeout(function() {  playYoutube( 0 );  }, 3000); 
+} );
+
 $('#youWinModal').on('hide.bs.modal', stopYoutube );
-
-
 /******************************************************************************************************/
 /******************************************************************************************************/
 function fnBegin() {
@@ -86,6 +97,7 @@ function fnColorClick() {
   playSound( colorNames[k] );
   if ( k == guessedColorIndex ) {    // цвет угадан
     console.log( k + ' = ' + guessedColorIndex );
+    playSoundAfter('victory');  
     $(this).addClass("winner orangeBorder");  
     var s = ' ' + attemptsCount,
         l = s.length;
@@ -101,25 +113,36 @@ function fnColorClick() {
       default: s +=' попыток';
     }
     document.querySelector( '#attemptsCountNode' ).innerHTML = s;
-    $('#youWinModal').modal('show');
-    playYoutube( 0 );
-    
-  } else if ( k > guessedColorIndex ) {
+    $('#youWinModal').modal('show');    
+    return;
+  } 
+
+  if ( k > guessedColorIndex ) {
     console.log( k + ' > ' + guessedColorIndex );  
     $( span1 ).addClass( "earlier glyphicon-hand-left" ).removeClass( "further glyphicon-hand-right" );
     $( span2 ).addClass( "earlier glyphicon-hand-up" )  .removeClass( "further glyphicon-hand-down" );
-    $( spanBlock ).Show;
   } else {
     console.log( k + ' < ' + guessedColorIndex );  
     $( span1 ).removeClass( "earlier glyphicon-hand-left" ) .addClass( "further glyphicon-hand-right" );
-    $( span2 ).removeClass( "earlier glyphicon-hand-up" ) .addClass( "further glyphicon-hand-down" );
-    $( spanBlock ).Show;    
+    $( span2 ).removeClass( "earlier glyphicon-hand-up" ) .addClass( "further glyphicon-hand-down" );  
   }   
+  $( spanBlock ).Show;  
+  playSoundAfter('tryNext');  
 }
 /******************************************************************************************************/
-function playSound(fileName) { 
-  console.log(fileName);
-  var mySrc = "sound/"+fileName+".mp3";
+function playSoundAfter(fileName) { 
+  var a = document.querySelector("audio");
+  if ( a.ended ) {
+    playSound(fileName);
+  } else {
+    soundTimer = setTimeout(function() { playSoundAfter(fileName) }, 100);
+  }
+} 
+/******************************************************************************************************/
+function playSound(fileName) {
+  clearTimeout(soundTimer);
+  var mySrc = '';
+  if (fileName) mySrc = "sound/"+fileName+".mp3";
   document.querySelector("audio").setAttribute( "src", mySrc ); 
 } 
 /******************************************************************************************************/
@@ -129,7 +152,8 @@ function playYoutube(start, end) {
    document.querySelector("iframe").setAttribute( "src", mySrc ); 
 } 
 /******************************************************************************************************/
-function stopYoutube() { 
+function stopYoutube() {
+   clearTimeout(videoTimer);
    $('#youWinModal iframe').removeAttr('src');
 } 
 /******************************************************************************************************/
