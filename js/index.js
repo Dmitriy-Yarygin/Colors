@@ -5,6 +5,10 @@ var colorCode = [ '#A52A2A', '#FF0000', '#FF7F50', '#FFA500', '#FFD700', '#FFFF0
     attemptsCount=0;
 makeColorTable( colorCode.length );
 $( ".childUlElem" ).click( fnColorClick );
+//$('#youWinModal').on('show.bs.modal', function(){ } );
+$('#youWinModal').on('hide.bs.modal', stopYoutube );
+
+
 /******************************************************************************************************/
 /******************************************************************************************************/
 function fnBegin() {
@@ -79,7 +83,7 @@ function fnColorClick() {
       span1 = spanBlock.firstElementChild,
       span2 = spanBlock.lastElementChild;
   attemptsCount++;
-  playSound(12, 17)
+  playSound( colorNames[k] );
   if ( k == guessedColorIndex ) {    // цвет угадан
     console.log( k + ' = ' + guessedColorIndex );
     $(this).addClass("winner orangeBorder");  
@@ -97,7 +101,8 @@ function fnColorClick() {
       default: s +=' попыток';
     }
     document.querySelector( '#attemptsCountNode' ).innerHTML = s;
-    $('#youWinModal').modal('toggle');
+    $('#youWinModal').modal('show');
+    playYoutube( 0 );
     
   } else if ( k > guessedColorIndex ) {
     console.log( k + ' > ' + guessedColorIndex );  
@@ -112,8 +117,19 @@ function fnColorClick() {
   }   
 }
 /******************************************************************************************************/
-function playSound(start, end) { 
-  var mySrc = "https://www.youtube.com/embed/ybt2jhCQ3lA?controls=0&showinfo=0&iv_load_policy=3&modestbranding=1&fs=0&rel=0&autoplay=1&start="+start+"&end="+end;
-  document.querySelector("iframe").setAttribute( "src", mySrc ); 
+function playSound(fileName) { 
+  console.log(fileName);
+  var mySrc = "sound/"+fileName+".mp3";
+  document.querySelector("audio").setAttribute( "src", mySrc ); 
+} 
+/******************************************************************************************************/
+function playYoutube(start, end) { 
+   var mySrc = "https://www.youtube.com/embed/ybt2jhCQ3lA?controls=0&showinfo=0&iv_load_policy=3&modestbranding=1&fs=0&rel=0&autoplay=1&start="+start;
+   if (end) mySrc += "&end="+end;
+   document.querySelector("iframe").setAttribute( "src", mySrc ); 
+} 
+/******************************************************************************************************/
+function stopYoutube() { 
+   $('#youWinModal iframe').removeAttr('src');
 } 
 /******************************************************************************************************/
