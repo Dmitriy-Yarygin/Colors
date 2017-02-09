@@ -79,6 +79,7 @@ function fnColorClick() {
       span1 = spanBlock.firstElementChild,
       span2 = spanBlock.lastElementChild;
   attemptsCount++;
+  playSound(12, 17)
   if ( k == guessedColorIndex ) {    // цвет угадан
     console.log( k + ' = ' + guessedColorIndex );
     $(this).addClass("winner orangeBorder");  
@@ -111,4 +112,8 @@ function fnColorClick() {
   }   
 }
 /******************************************************************************************************/
+function playSound(start, end) { 
+  var mySrc = "https://www.youtube.com/embed/ybt2jhCQ3lA?controls=0&showinfo=0&iv_load_policy=3&modestbranding=1&fs=0&rel=0&autoplay=1&start="+start+"&end="+end;
+  document.querySelector("iframe").setAttribute( "src", mySrc ); 
+} 
 /******************************************************************************************************/
